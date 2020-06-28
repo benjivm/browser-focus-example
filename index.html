@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Browser Focus Example</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        .has-focus {
+            background: white;
+            color: black;
+        }
+
+        .blurred {
+            background: black;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 id="title">Hello, world.</h1>
+
+    This page is monitoring window focus.
+
+    <script>
+        let body = document.querySelector('body');
+        let title = document.getElementById('title');
+
+        // Method 1:
+        // Check the current window's focus
+        // every 300 milliseconds
+        // ----------------------------
+        setInterval(function() {
+            // Send message to browser console
+            console.log('Checking focus:');
+
+            if (document.hasFocus()) {
+                windowHasFocus()
+            } else {
+                windowBlurred()
+            }
+        }, 300);
+
+        // Method 2:
+        // Use the window onfocus/blur events
+        // ----------------------------
+        // window.onfocus = windowHasFocus
+        // window.onblur = windowBlurred
+
+        // Page Visbility API:
+        // This will only show if the page is visible,
+        // not if it is being or has been interacted with
+        // ----------------------------
+        // let hidden, visibilityChange;
+
+        // if (typeof document.hidden !== "undefined") {
+        //     hidden = "hidden";
+        //     visibilityChange = "visibilitychange";
+        // } else if (typeof document.msHidden !== "undefined") {
+        //     hidden = "msHidden";
+        //     visibilityChange = "msvisibilitychange";
+        // } else if (typeof document.webkitHidden !== "undefined") {
+        //     hidden = "webkitHidden";
+        //     visibilityChange = "webkitvisibilitychange";
+        // }
+
+        // // Enable/disable
+        // document.addEventListener(visibilityChange, handleVisibilityChange, false);
+
+        // // Handle page visibility change
+        // function handleVisibilityChange() {
+        //     if (document[hidden]) {
+        //         windowBlurred();
+        //     } else {
+        //         windowHasFocus();
+        //     }
+        // }
+
+        // // This is what happens when the window has focus
+        // // ----------------------------
+        function windowHasFocus() {
+            // Change the "<body>" element's class name
+            body.className = 'has-focus';
+
+            // Change the "Title" element's content
+            title.textContent = 'The window HAS focus.';
+
+            // Send message to browser console
+            console.log('HAS FOCUS');
+        };
+
+        // This is what happens when the window does not have focus
+        // ----------------------------
+        function windowBlurred() {
+            // Change the "<body>" element's class name
+            body.className = 'blurred';
+
+            // Change the "Title" element's content
+            title.textContent = 'The window does NOT have focus.';
+
+            // Send message to browser console
+            console.log('FOCUS LOST');
+        };
+
+        // This is how a user can disable the above functionality:
+        // Method 1: document.hasFocus = function() { return true; };
+        // Method 2: window.onblur = function() { window.onfocus = function(){}; return true; };
+        // Page Visibility API: for (event_name of ["visibilitychange", "webkitvisibilitychange", "blur"]) { window.addEventListener(event_name, function(event) { event.stopImmediatePropagation(); }, true); }
+    </script>
+</body>
+
+</html>
